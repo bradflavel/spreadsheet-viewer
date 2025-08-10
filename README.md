@@ -44,11 +44,11 @@ By keeping it lightweight, offline, and responsive, I could run it instantly in 
 
 | Challenge | Solution |
 |-----------|----------|
-| Theme kept resetting to dark mode after editing the Department Numbers section. | Fixed by saving the theme preference to `localStorage` immediately on toggle, and reading it on page load before CSS renders to avoid flicker. |
-| Uploaded spreadsheets sometimes displayed blank rows at the bottom. | Added a check to strip trailing empty rows when parsing the sheet with SheetJS. |
-| Clicking “Load Data” on a large Excel file froze the interface. | Moved the file parsing to a Web Worker and displayed a loading spinner until data was ready. |
-| Pagination showed “Page 0” if a filter removed all rows. | Added logic to clamp `currentPage` to a minimum of 1 and gracefully display “No results found” instead of an empty table. |
-| Imported `.txt` files for the notepad sometimes overwrote current notes by accident. | Added a confirmation prompt before replacing existing notes when importing a file. |
+| Theme kept reverting between page loads. | Persisted the current theme in `localStorage` and applied it on startup (`DOMContentLoaded`) by toggling the `dark-theme` class accordingly. |
+| Live search felt jittery on bigger files. | Debounced the search input to 250 ms so filtering runs less often while typing (`debounce(suburbInput.oninput, 250)`). |
+| Keyboard shortcuts sometimes got in the way of typing. | Scoped shortcuts to avoid firing while focus is in an `INPUT`/`TEXTAREA`, and used `/` to focus the search box with `e.preventDefault()` to stop the slash from being typed. |
+| Department info edits didn’t stick after refresh. | Added an Edit/Save flow that writes the table data to `localStorage` as JSON on save, and restores it on load. |
+| Users couldn’t tell which column was sorted. | Implemented click-to-sort headers that toggle ascending/descending and appended clear indicators (`▲`/`▼`) to the active header. |
 
 <br>
 
